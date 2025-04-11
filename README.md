@@ -19,7 +19,8 @@ Este projeto demonstra **vulnerabilidades comuns** encontradas em aplicações w
 | Brute Force (Força bruta) | `/login`            | Ataque de tentativa e erro para descobrir senhas                         |
 | Path Traversal           | `/file?nome=...`   | Acesso a arquivos fora do diretório permitido                            |
 | Remote Code Execution (RCE) | `/ping?host=...`    | Execução remota de comandos via parâmetros                               |
-| DDOS | `python ddos_layer_7.py`    | Execução de comandos python para ativar o script DDOS
+| DDoS (Layer 7) | `python ddos_layer_7.py` | Executa o script Python que simula um ataque DDoS na camada de aplicação (HTTP Flood), enviando múltiplas requisições simultâneas ao servidor alvo. |
+
 
 ---
 
@@ -113,17 +114,19 @@ Substituição de os.system por subprocess.run com shell=False
 ## 🧠 Objetivo Didático
 
 Este projeto pode ser utilizado para:
-- Aulas de segurança de aplicações web
-- Laboratórios de cibersegurança
-- Testes em ambientes isolados
-- Estudo individual de boas práticas de Flask
+<li>- Aulas de segurança de aplicações web</li>
+<li>- Laboratórios de cibersegurança</li>
+<li>- Testes em ambientes isolados</li>
+<li>- Estudo individual de boas práticas de Flask</li>
 
 
-## 📄Licença
+
+## 📄 Licença
 Distribuído sob a licença MIT. Veja ```LICENSE``` para mais informações.
 
 
-## Autor
+
+## ✍️ Autor
 
 Desenvolvido por Matheus Lima.
 >Sinta-se livre para colaborar, sugerir melhorias ou adaptar ao seu curso/projeto!
