@@ -29,8 +29,8 @@ Este projeto demonstra **vulnerabilidades comuns** encontradas em aplicações w
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/limarios/flask-vuln-simulator.git
-cd ddos
+git clone https://github.com/limarios/vulnerabilidades_flask.git
+cd vulnerabilidades_flask
 ```
 
 ### 2. Criando um ambiente virutal
