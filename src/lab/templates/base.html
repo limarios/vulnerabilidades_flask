@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Flask Security Lab — Red Team vs Blue Team. Each OWASP vulnerability paired with its hardened twin.">
+  <title>{% block title %}Flask Security Lab{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lab.css') }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <div class="brand">
+        <span class="brand-prompt" aria-hidden="true">$&gt;</span>
+        <div class="brand-text">
+          <h1 class="brand-title">Flask Security Lab</h1>
+          <p class="brand-subtitle">Red Team <span class="sep" aria-hidden="true">&#9876;</span> Blue Team</p>
+        </div>
+      </div>
+
+      <div class="header-side">
+        <div class="status-bar" role="status" aria-live="polite">
+          {% set bt_on = blue_team_enabled %}
+          <span class="status-badge {{ 'is-armed' if bt_on else 'is-offline' }}"
+                title="Blue Team defensive layer">
+            <span class="status-dot" aria-hidden="true"></span>
+            BLUE TEAM: {{ 'ARMED' if bt_on else 'OFFLINE' }}
+          </span>
+
+          {% set waf_on = waf_enabled %}
+          <span class="status-badge {{ 'is-active' if waf_on else 'is-offline' }}"
+                title="Web Application Firewall">
+            <span class="status-dot" aria-hidden="true"></span>
+            WAF: {{ 'ACTIVE' if waf_on else 'OFFLINE' }}
+          </span>
+        </div>
+
+        <a class="gh-link" href="https://github.com/limarios/flask-security-lab" rel="noopener noreferrer">
+          <span class="gh-mark" aria-hidden="true">&#9670;</span>
+          <span>View on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container" role="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p class="footer-note">
+        Intentionally vulnerable application &mdash; run locally, never expose to the public internet.
+      </p>
+      <p class="footer-meta">
+        Flask Application Factory <span class="dot-sep" aria-hidden="true">&middot;</span>
+        OWASP Top 10 (2021) <span class="dot-sep" aria-hidden="true">&middot;</span>
+        CSP: <code>script-src 'self'</code>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

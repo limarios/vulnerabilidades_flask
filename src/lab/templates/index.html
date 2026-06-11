@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Vulnerability Catalog &mdash; Flask Security Lab{% endblock %}
+
+{% block content %}
+<section class="intro" aria-labelledby="intro-heading">
+  <h2 id="intro-heading" class="intro-heading">
+    <span class="intro-kicker">// catalog</span>
+    Attack it. Then watch it get defended.
+  </h2>
+  <p class="intro-lead">
+    Every entry below ships <strong>twice</strong>: a deliberately
+    <span class="tag-inline tag-red">vulnerable</span> route and its
+    <span class="tag-inline tag-blue">hardened twin</span>. Fire the same payload at both
+    and compare the response &mdash; this is the Red Team vs Blue Team demo, side by side.
+  </p>
+  <p class="intro-count">
+    <span class="count-num">{{ catalog | length }}</span> vulnerabilities loaded
+  </p>
+</section>
+
+<section aria-label="Vulnerability catalog">
+  <ul class="card-grid">
+    {% for item in catalog %}
+    <li class="card" id="{{ item.slug }}">
+      <div class="card-head">
+        <h3 class="card-title">{{ item.name }}</h3>
+        <div class="badges">
+          <span class="badge badge-owasp" title="OWASP Top 10 category">{{ item.owasp }}</span>
+          <span class="badge badge-cwe" title="Common Weakness Enumeration">{{ item.cwe }}</span>
+        </div>
+      </div>
+
+      <p class="card-summary">{{ item.summary }}</p>
+
+      <div class="card-attack">
+        <span class="attack-label" aria-hidden="true">payload</span>
+        <code class="attack-code">{{ item.attack_example }}</code>
+      </div>
+
+      <div class="card-actions">
+        <a class="btn btn-attack" href="{{ item.vulnerable_path }}">
+          <span class="btn-icon" aria-hidden="true">&#9876;</span> Attack
+        </a>
+        <a class="btn btn-secure" href="{{ item.secure_path }}">
+          <span class="btn-icon" aria-hidden="true">&#128737;</span> Secure
+        </a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

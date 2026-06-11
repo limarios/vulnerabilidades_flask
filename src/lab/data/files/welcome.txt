@@ -1,0 +1,6 @@
+This file lives inside the sandbox directory that the /file routes are allowed to read.
+
+Try reading it safely:   /secure/file?name=welcome.txt
+Then try to escape:      /vulnerable/file?name=../../config.py
+
+The secure twin blocks the traversal; the vulnerable one happily hands over the source.
