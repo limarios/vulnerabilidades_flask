@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security policy & intentional vulnerabilities
+    url: https://github.com/limarios/flask-security-lab/blob/master/SECURITY.md
+    about: >-
+      The intentional vulnerabilities are by design — do not report them.
+      For the responsible-disclosure policy and questions about the lab's
+      security stance, read SECURITY.md.
