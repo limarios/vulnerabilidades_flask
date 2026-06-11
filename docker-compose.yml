@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------
+# Flask Security Lab - Red Team vs Blue Team demo
+# ---------------------------------------------------------------------------
+# Two instances of the SAME image, differing only by environment flags:
+#   - lab-defended : Blue Team ON  (headers + WAF + detection + rate limit)
+#   - lab-naive    : Blue Team OFF (behaves like unprotected, naive code)
+#
+# SECURITY: every port is published with an explicit 127.0.0.1 host bind.
+# This app is INTENTIONALLY VULNERABLE. Binding to the loopback keeps it
+# reachable only from the local machine -- never from the LAN/Internet.
+# Do NOT change "127.0.0.1:HOST:CONTAINER" to "HOST:CONTAINER".
+# ---------------------------------------------------------------------------
+
+services:
+  lab-defended:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flask-security-lab:latest
+    container_name: lab-defended
+    environment:
+      FLASK_ENV: lab
+      BLUE_TEAM_ENABLED: "true"
+      WAF_ENABLED: "true"
+      RATELIMIT_ENABLED: "true"
+      HOST: 0.0.0.0
+      PORT: "5000"
+    ports:
+      # Loopback-only publish. Reachable at http://127.0.0.1:5000
+      - "127.0.0.1:5000:5000"
+    restart: unless-stopped
+
+  lab-naive:
+    # Reuse the exact same build/image as lab-defended.
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flask-security-lab:latest
+    container_name: lab-naive
+    environment:
+      FLASK_ENV: lab
+      BLUE_TEAM_ENABLED: "false"
+      WAF_ENABLED: "false"
+      RATELIMIT_ENABLED: "false"
+      HOST: 0.0.0.0
+      PORT: "5000"
+    ports:
+      # Loopback-only publish. Reachable at http://127.0.0.1:5001
+      - "127.0.0.1:5001:5000"
+    restart: unless-stopped

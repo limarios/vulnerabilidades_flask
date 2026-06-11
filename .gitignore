@@ -313,3 +313,20 @@ rest-client.private.env.json
 # End of https://www.gitignore.io/api/git,flask,python,pycharm
 
 .idea
+
+### Flask Security Lab (project-specific) ###
+# Local secrets / environment. Keep the committed template (.env.example).
+.env
+!.env.example
+
+# SQLite databases (recreated at runtime)
+*.db
+src/lab/data/*.db
+
+# Ruff cache (mypy/pytest/htmlcov/.coverage already covered above)
+.ruff_cache/
+
+# Local assistant artifacts (not part of the project)
+.remember/
+memory/
+.claude/

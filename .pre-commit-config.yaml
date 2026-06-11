@@ -1,0 +1,45 @@
+# Pre-commit hooks for the Flask Security Lab.
+# Install with: pre-commit install   (run via `make install`)
+# Run on all files: pre-commit run --all-files
+#
+# Note: lint scoping mirrors pyproject.toml. The vulnerable/* and red_team/*
+# modules are insecure BY DESIGN and have their bandit (S) / bugbear (B) lints
+# silenced via per-file-ignores in pyproject -- ruff honours that config here.
+
+minimum_pre_commit_version: "3.5.0"
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      # Lint (with autofix). Config comes from pyproject.toml [tool.ruff].
+      - id: ruff
+        args: ["--fix"]
+      # Formatter. Black-compatible; we also run black in CI for parity.
+      - id: ruff-format
+
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        # Match pyproject's narrow `files` scope; bring the type stubs the
+        # checked modules need into the hook's isolated environment.
+        additional_dependencies:
+          - types-requests
+        # mypy reads its own config (files, python_version, ...) from pyproject.
+        pass_filenames: false

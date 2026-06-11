@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flask-security-lab"
+version = "1.0.0"
+description = "A hands-on Flask security lab: every vulnerability ships with its attack, its fix, and its detection. Red Team vs Blue Team."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Matheus Lima" }]
+keywords = ["security", "flask", "owasp", "red-team", "blue-team", "appsec", "education"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Topic :: Security",
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "Flask>=3.1.0",
+    "Flask-Limiter>=3.8",
+    "PyJWT>=2.9",
+    "requests>=2.32",
+    "structlog>=24.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "black>=24.8",
+    "mypy>=1.11",
+    "types-requests>=2.32",
+    "pre-commit>=3.8",
+    "pip-audit>=2.7",
+]
+
+[project.urls]
+Homepage = "https://github.com/limarios/flask-security-lab"
+Repository = "https://github.com/limarios/flask-security-lab"
+Documentation = "https://github.com/limarios/flask-security-lab/tree/master/docs"
+
+[project.scripts]
+red-team = "red_team.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lab = ["templates/*.html", "static/css/*.css", "data/files/*.txt"]
+red_team = ["wordlists/*.txt"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C4", "SIM", "S"]
+# S (flake8-bandit) intentionally flags the vulnerable modules. We allow it there
+# on purpose so the contrast with the secure modules is explicit.
+ignore = ["S101"]  # assert is fine in tests
+
+[tool.ruff.lint.per-file-ignores]
+# The vulnerable/* and red_team/* modules are insecure BY DESIGN. Silencing the
+# bandit lints here keeps CI green while the secure/* twins stay fully linted.
+"src/lab/vulnerable/*" = ["S", "B"]
+"src/red_team/*" = ["S"]
+"tests/*" = ["S"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true
+# Pragmatic: strict where it counts (blue_team, db), relaxed in the deliberately
+# simple vulnerable/secure demo modules.
+files = ["src/lab/blue_team", "src/lab/db.py", "src/lab/config.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra -q"
+markers = [
+    "vulnerable: tests that prove an attack succeeds against the naive code",
+    "secure: tests that prove the same attack fails against the hardened code",
+    "blue_team: tests for detection, WAF, headers and rate limiting",
+]
+
+[tool.coverage.run]
+source = ["lab"]
+omit = ["src/lab/vulnerable/*"]

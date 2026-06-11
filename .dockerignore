@@ -1,0 +1,62 @@
+# Version control
+.git
+.gitignore
+
+# Virtual environments
+.venv
+venv
+env
+ENV
+
+# Python caches / build artifacts
+__pycache__
+*.py[cod]
+*$py.class
+*.egg-info
+build
+dist
+develop-eggs
+.eggs
+wheels
+*.egg
+
+# Databases (the app recreates these at runtime)
+*.db
+src/lab/data/*.db
+
+# Test / type / lint caches
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.dmypy.json
+htmlcov
+.coverage
+.coverage.*
+coverage.xml
+.tox
+.nox
+.hypothesis
+
+# Local environment / secrets
+.env
+
+# Tests and docs are not needed in the runtime image
+tests
+docs
+
+# Editor / IDE
+.idea
+.vscode
+
+# CI / tooling configs not needed inside the image
+.github
+.pre-commit-config.yaml
+Makefile
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs
